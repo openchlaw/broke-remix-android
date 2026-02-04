@@ -33,6 +33,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvStatusHeader" />
 
+    <Button
+        android:id="@+id/btnConfigure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Apps"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvStatusSub" />
+
+    <Button
+        android:id="@+id/btnPermission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enable Permission"
+        android:backgroundTint="#B00020"
+        android:textColor="#FFFFFF"
+        android:visibility="gone"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnConfigure" />
+
     <ImageView
         android:id="@+id/btnLock"
         android:layout_width="220dp"

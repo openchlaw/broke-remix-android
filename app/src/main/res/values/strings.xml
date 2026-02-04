@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Broke Remix</string>
+    <string name="accessibility_service_description">Broke Remix needs this service to detect when you open a blocked app and prevent access.</string>
+</resources>

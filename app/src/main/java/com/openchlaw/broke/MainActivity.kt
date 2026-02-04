@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvSub: TextView
     private lateinit var btnLock: ImageView
     private lateinit var tvDebug: TextView
+    private lateinit var btnConfigure: android.widget.Button
+    private lateinit var btnPermission: android.widget.Button
 
     // State
     private var isBlocking = false
@@ -48,10 +50,21 @@ class MainActivity : AppCompatActivity() {
         tvSub = findViewById(R.id.tvStatusSub)
         btnLock = findViewById(R.id.btnLock)
         tvDebug = findViewById(R.id.tvDebug)
+        btnConfigure = findViewById(R.id.btnConfigure)
+        btnPermission = findViewById(R.id.btnPermission)
 
         // Init Prefs
         prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         loadState()
+
+        // Event Listeners
+        btnConfigure.setOnClickListener {
+            startActivity(Intent(this, AppSelectionActivity::class.java))
+        }
+
+        btnPermission.setOnClickListener {
+            startActivity(Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS))
+        }
 
         // Init NFC
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
@@ -80,6 +93,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         nfcAdapter?.enableForegroundDispatch(this, pendingIntent, null, null)
+        checkPermissions()
     }
 
     override fun onPause() {
@@ -155,5 +169,28 @@ class MainActivity : AppCompatActivity() {
 
     private fun showToast(msg: String, success: Boolean) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun checkPermissions() {
+        if (!isAccessibilityServiceEnabled()) {
+            btnPermission.visibility = android.view.View.VISIBLE
+            tvSub.text = "Permission Required! Enable Accessibility Service to block apps."
+        } else {
+            btnPermission.visibility = android.view.View.GONE
+            if (!isBlocking) {
+                tvSub.text = "Tap the lock and scan any NFC tag to lock."
+            }
+        }
+    }
+
+    private fun isAccessibilityServiceEnabled(): Boolean {
+        val am = getSystemService(Context.ACCESSIBILITY_SERVICE) as android.view.accessibility.AccessibilityManager
+        val enabledServices = am.getEnabledAccessibilityServiceList(android.accessibilityservice.AccessibilityServiceInfo.FEEDBACK_GENERIC)
+        for (service in enabledServices) {
+            if (service.resolveInfo.serviceInfo.packageName == packageName) {
+                return true
+            }
+        }
+        return false
     }
 }
