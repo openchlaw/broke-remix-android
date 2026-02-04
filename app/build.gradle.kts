@@ -4,9 +4,6 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    
-    // Explicitly add Data Binding compiler if it was implicitly enabled but missing
-    // implementation("androidx.databinding:databinding-runtime:8.2.0")
 }
 
 android {
@@ -23,7 +20,7 @@ android {
     }
 
     buildFeatures {
-        // Disable ViewBinding to simplify build and rule out XML/Binding conflicts
+        // Disable ViewBinding/DataBinding to simplify build and rule out XML/Binding conflicts
         viewBinding = false
         dataBinding = false
     }
